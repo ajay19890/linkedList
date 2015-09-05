@@ -1,0 +1,158 @@
+package linked.list;
+
+
+
+public class LinkedList {
+	private int counter;
+	private ListNode start;
+	private ListNode end;
+
+
+	public int getSize(){
+		return counter;
+	}
+
+	public LinkedList(){
+		start =null;
+		end = null;
+		counter = 0;
+	}
+
+	//get first element from Linked List
+	public ListNode getFirst(){
+		return start;
+	}
+
+	//insert value at start
+	public void insertAtStart(int i){
+		ListNode node = new ListNode(i);
+		if(start == null){
+			start = node;
+			end= node;
+		}else{
+			node.setNext(start);
+			start = node;
+		}
+		counter++;
+	}
+
+	//insert at end
+	public void insertAtEnd(int i){
+		ListNode node = new ListNode(i);
+		if(start==null){
+			start = end = node;
+		}else{
+			ListNode current=start;
+			while(current.getNext() != null){
+				current = current.getNext();
+			}
+			current.setNext(node);
+			end = node;
+		}
+		counter++;
+	}
+
+	//add a new element
+	public void  add(int value) {
+		ListNode temp = new ListNode(value);
+		if(start == null){
+			start = end = temp;
+			end.setNext(null);
+		}else{
+
+			ListNode current = start;
+			while(current.getNext() != null){
+				current = current.getNext();
+			}
+			current.setNext(temp);
+		}
+		counter++;
+	}
+
+	//insert at position
+	public void insertAt(int val,int pos) throws Exception{
+		ListNode node = new ListNode(val);
+		ListNode temp = start;
+		if(start == null){
+			start = end = node;
+		}else if(pos ==1){
+			node.setNext(start.getNext());
+			start = node;
+		}
+		else{
+			if(pos>counter){
+				throw new Exception("Not enough elements in List");
+			}else {
+
+				for(int i=1;i<=counter;i++){
+					if(i==pos-1){
+						node.setNext(temp.getNext()); 
+						temp.setNext(node);
+					}
+					temp = temp.getNext();
+				}
+			}
+		}
+		counter++;
+	}
+
+	//remove values
+	public void removeValue(int val){
+		ListNode temp = start;
+		ListNode prev = start;
+		for(int i=1;i<=counter;i++){
+			if(temp.getData() == val){
+				prev.setNext(temp.getNext());
+				//counter--;
+			}else{
+				prev = temp;
+				temp = temp.getNext();
+			}
+		}
+		counter--;
+	}
+
+	//remove values from index
+	public void removeIndex(int index){
+		ListNode temp = start;
+		if(index <1 || index > counter){
+			try {
+				throw new  Exception("Cannot delete at this index");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		for(int i=1;i<index;i++){
+			temp = temp.getNext();
+		}
+		temp.setNext(temp.getNext().getNext());
+		counter--;
+	}
+
+
+	//get linked list values
+	public Object get(int index){
+		if(index <=0){
+			return null;
+		}
+		ListNode current = start;
+		for(int i=1;i<index;i++){
+			current = current.getNext();
+		}
+		return current.getData();
+	}
+
+	//reverse a linked list
+	public void reverse(){
+		ListNode prev=null, next = null;
+		ListNode current = start;
+		while(current != null){
+			next = current.getNext();
+			current.setNext(prev);
+			prev = current;
+			current = next;
+
+		}
+		start = prev;
+	}
+}
